@@ -1,0 +1,22 @@
+{
+    "name": "nanawel/zend-db-sql-insertmultiple",
+    "description": " ",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2",
+        "db"
+    ],
+    "homepage": "https://github.com/nanawel/zend-db-sql-insertmultiple",
+    "autoload": {
+        "psr-4": {
+            "Zend\\Db\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.23",
+        "zendframework/zend-db": "~2.5",
+        "zendframework/zend-stdlib": "~2.5"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
