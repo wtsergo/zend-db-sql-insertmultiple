@@ -171,6 +171,8 @@ class InsertMultiple extends AbstractPreparableSql
             return '';    //TODO Test that
         }
 
+        $resolvedSubValuesCache = [];
+
         $prepareColumns = true;
         foreach ($this->valueRows as $row) {
             if (!is_array($row)) {
@@ -187,12 +189,23 @@ class InsertMultiple extends AbstractPreparableSql
                     $subValues[] = $driver->formatParameterName($col);
                     $parameterContainer->offsetSet($col, $subValue);
                 } else {
-                    $subValues[] = $this->resolveColumnValue(
-                        $subValue,
-                        $platform,
-                        $driver,
-                        $parameterContainer
-                    );
+                    // Only use cache for scalar values
+                    if (is_scalar($subValue) && array_key_exists($subValue, $resolvedSubValuesCache[$col] ?? [])) {
+                        $resolvedSubValue = $resolvedSubValuesCache[$col][$subValue];
+                    } else {
+                        $resolvedSubValue = $this->resolveColumnValue(
+                            $subValue,
+                            $platform,
+                            $driver,
+                            $parameterContainer
+                        );
+                    }
+
+                    $subValues[] = $resolvedSubValue;
+
+                    if (is_scalar($subValue)) {
+                        $resolvedSubValuesCache[$col][$subValue] = $resolvedSubValue;
+                    }
                 }
             }
             $values[] = implode(', ', $subValues);
