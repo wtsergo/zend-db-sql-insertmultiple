@@ -4,18 +4,19 @@
     "license": "BSD-3-Clause",
     "keywords": [
         "zf2",
-        "db"
+        "db",
+        "laminas"
     ],
     "homepage": "https://github.com/nanawel/zend-db-sql-insertmultiple",
     "autoload": {
         "psr-4": {
-            "Zend\\Db\\": "src/"
+            "Laminas\\Db\\": "src/"
         }
     },
     "require": {
         "php": ">=5.3.23",
-        "zendframework/zend-db": "~2.5",
-        "zendframework/zend-stdlib": "^2.5 || ^3.0"
+        "laminas/laminas-db": "~2.5",
+        "laminas/laminas-stdlib": "^2.5 || ^3.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
