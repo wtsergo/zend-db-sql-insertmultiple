@@ -1,19 +1,12 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
-namespace Zend\Db\Sql;
+namespace Laminas\Db\Sql;
 
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Exception\InvalidArgumentException;
-use Zend\Db\Sql\AbstractPreparableSql;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Exception\InvalidArgumentException;
+use Laminas\Db\Sql\AbstractPreparableSql;
 
 class InsertMultiple extends AbstractPreparableSql
 {
@@ -92,15 +85,15 @@ class InsertMultiple extends AbstractPreparableSql
      *
      * @param  array|Select $values
      * @param  string $flag one of VALUES_MERGE or VALUES_SET; defaults to VALUES_SET
-     * @throws \Zend\Db\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Exception\InvalidArgumentException
      * @return InsertMultiple
      */
     public function values($values, $flag = self::VALUES_SET)
     {
         if ($values instanceof Select) {
             if ($flag == self::VALUES_MERGE) {
-                throw new \Zend\Db\Exception\InvalidArgumentException(
-                    'A Zend\Db\Sql\Select instance cannot be provided with the merge flag'
+                throw new \Laminas\Db\Exception\InvalidArgumentException(
+                    'A Laminas\Db\Sql\Select instance cannot be provided with the merge flag'
                 );
             }
             $this->select = $values;
@@ -108,13 +101,13 @@ class InsertMultiple extends AbstractPreparableSql
         }
 
         if (!is_array($values)) {
-            throw new \Zend\Db\Exception\InvalidArgumentException(
-                'values() expects an array of values or Zend\Db\Sql\Select instance'
+            throw new \Laminas\Db\Exception\InvalidArgumentException(
+                'values() expects an array of values or Laminas\Db\Sql\Select instance'
             );
         }
         if ($this->select && $flag == self::VALUES_MERGE) {
-            throw new \Zend\Db\Exception\InvalidArgumentException(
-                'An array of values cannot be provided with the merge flag when a Zend\Db\Sql\Select instance already exists as the value source'
+            throw new \Laminas\Db\Exception\InvalidArgumentException(
+                'An array of values cannot be provided with the merge flag when a Laminas\Db\Sql\Select instance already exists as the value source'
             );
         }
         if ($flag == self::VALUES_SET) {
@@ -161,7 +154,7 @@ class InsertMultiple extends AbstractPreparableSql
             return;
         }
         if (!$this->columns) {
-            throw new \Zend\Db\Exception\InvalidArgumentException('values or select should be present');
+            throw new \Laminas\Db\Exception\InvalidArgumentException('values or select should be present');
         }
 
         $columns = array();
@@ -176,7 +169,7 @@ class InsertMultiple extends AbstractPreparableSql
         $prepareColumns = true;
         foreach ($this->valueRows as $row) {
             if (!is_array($row)) {
-                throw new \Zend\Db\Exception\InvalidArgumentException('values must be arrays for multi-insertion');
+                throw new \Laminas\Db\Exception\InvalidArgumentException('values must be arrays for multi-insertion');
             }
             $subValues = array();
             ksort($row); // Make sure columns always appear in the same order
@@ -258,13 +251,13 @@ class InsertMultiple extends AbstractPreparableSql
      * Proxies to values and columns
      *
      * @param  string $name
-     * @throws \Zend\Db\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Exception\InvalidArgumentException
      * @return void
      */
     public function __unset($name)
     {
         if (!isset($this->columns[$name])) {
-            throw new \Zend\Db\Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new \Laminas\Db\Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
         }
 
         unset($this->columns[$name]);
@@ -289,13 +282,13 @@ class InsertMultiple extends AbstractPreparableSql
      * Retrieves value by column name
      *
      * @param  string $name
-     * @throws \Zend\Db\Exception\InvalidArgumentException
+     * @throws \Laminas\Db\Exception\InvalidArgumentException
      * @return mixed
      */
     public function __get($name)
     {
         if (!isset($this->columns[$name])) {
-            throw new \Zend\Db\Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
+            throw new \Laminas\Db\Exception\InvalidArgumentException('The key ' . $name . ' was not found in this objects column list');
         }
         return $this->columns[$name];
     }
