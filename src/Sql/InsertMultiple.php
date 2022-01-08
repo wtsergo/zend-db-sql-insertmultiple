@@ -183,8 +183,9 @@ class InsertMultiple extends AbstractPreparableSql
                     $parameterContainer->offsetSet($col, $subValue);
                 } else {
                     // Only use cache for scalar values
-                    if (is_scalar($subValue) && array_key_exists($subValue, $resolvedSubValuesCache[$col] ?? [])) {
-                        $resolvedSubValue = $resolvedSubValuesCache[$col][$subValue];
+                    $subValueCacheKey = "$subValue";
+                    if (is_scalar($subValue) && array_key_exists($subValueCacheKey, $resolvedSubValuesCache[$col] ?? [])) {
+                        $resolvedSubValue = $resolvedSubValuesCache[$col][$subValueCacheKey];
                     } else {
                         $resolvedSubValue = $this->resolveColumnValue(
                             $subValue,
@@ -197,7 +198,7 @@ class InsertMultiple extends AbstractPreparableSql
                     $subValues[] = $resolvedSubValue;
 
                     if (is_scalar($subValue)) {
-                        $resolvedSubValuesCache[$col][$subValue] = $resolvedSubValue;
+                        $resolvedSubValuesCache[$col][$subValueCacheKey] = $resolvedSubValue;
                     }
                 }
             }
