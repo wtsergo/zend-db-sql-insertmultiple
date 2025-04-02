@@ -166,6 +166,8 @@ class InsertMultiple extends AbstractPreparableSql
 
         $resolvedSubValuesCache = [];
 
+        $pcKey = 'insMulti';
+        $pcPos = 0;
         $prepareColumns = true;
         foreach ($this->valueRows as $row) {
             if (!is_array($row)) {
@@ -179,8 +181,9 @@ class InsertMultiple extends AbstractPreparableSql
                 }
 
                 if (is_scalar($subValue) && $parameterContainer) {
-                    $subValues[] = $driver->formatParameterName($col);
-                    $parameterContainer->offsetSet($col, $subValue);
+                    $__pn = $pcKey.$pcPos++;
+                    $subValues[] = $driver->formatParameterName($__pn);
+                    $parameterContainer->offsetSet($__pn, $subValue);
                 } else {
                     // Only use cache for scalar values
                     if (is_scalar($subValue)
